@@ -1,1 +1,419 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GiftCard Store — Buy Apple Gift Card</title>
+<style>
+:root{
+  --blue:#0071e3;--blue-dark:#0062c4;--red:#ff3b30;
+  --text:#1d1d1f;--gray:#6e6e73;--light:#f5f5f7;
+  --border:#d2d2d7;--radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+html{scroll-behavior:smooth;}
+body{background:#fff;color:var(--text);-webkit-font-smoothing:antialiased;}
+a{color:var(--blue);text-decoration:none;}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.08);}
+.nav{max-width:1080px;min-height:52px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;}
+.brand{font-size:16px;font-weight:650;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;}
+.brand svg{width:19px;height:19px;}
+.nav-links{display:flex;align-items:center;gap:30px;font-size:12px;color:#424245;}
+.nav-links a{color:inherit;transition:color .2s;}
+.nav-links a:hover{color:var(--blue);}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px 88px;}
+.hero{text-align:center;padding:66px 0 8px;}
+.hero h1{font-size:clamp(38px,6vw,64px);line-height:1.04;font-weight:700;letter-spacing:-.055em;}
+.hero p{font-size:clamp(16px,2vw,19px);color:var(--gray);max-width:620px;margin:17px auto 0;line-height:1.5;letter-spacing:-.01em;}
+.card-stage{display:flex;justify-content:center;padding:35px 0 64px;perspective:1000px;}
+.giftcard{width:min(390px,86vw);aspect-ratio:1.586;border-radius:24px;position:relative;overflow:hidden;box-shadow:0 28px 65px rgba(27,25,40,.22),0 3px 8px rgba(27,25,40,.12);transition:transform .4s,box-shadow .4s;transform-style:preserve-3d;}
+.giftcard::before{content:"";position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,.3),transparent 42%,rgba(0,0,0,.12));pointer-events:none;}
+.giftcard::after{content:"";position:absolute;width:72%;height:150%;left:-24%;top:-30%;transform:rotate(32deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.13),transparent);pointer-events:none;}
+.giftcard:hover{transform:translateY(-5px) rotateX(2deg);box-shadow:0 36px 75px rgba(27,25,40,.26),0 5px 12px rgba(27,25,40,.12);}
+.giftcard .amount-tag{position:absolute;top:18px;right:18px;background:rgba(255,255,255,.88);color:#1d1d1f;font-weight:650;padding:7px 13px;border-radius:999px;font-size:14px;z-index:1;}
+.giftcard .brand-mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;color:#fff;z-index:1;}
+.giftcard .brand-mark svg{width:62px;height:62px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.18));}
+.giftcard .brand-mark span{display:block;font-weight:600;font-size:14px;margin-top:7px;letter-spacing:.01em;text-shadow:0 1px 8px rgba(0,0,0,.25);}
+section{margin-bottom:48px;scroll-margin-top:76px;}
+.sec-title{font-size:22px;font-weight:650;letter-spacing:-.035em;margin-bottom:7px;}
+.sec-sub{font-size:14px;color:var(--gray);margin-bottom:18px;line-height:1.45;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.opt{border:1px solid #d2d2d7;border-radius:var(--radius);padding:17px 16px;background:#fff;cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s,transform .2s;user-select:none;text-align:center;}
+.opt:hover{border-color:#a1a1a6;transform:translateY(-1px);}
+.opt.active{border-color:var(--blue);background:#f5faff;box-shadow:0 0 0 1px var(--blue) inset;}
+.opt:focus-visible,.btn:focus-visible,a:focus-visible{outline:3px solid rgba(0,113,227,.45);outline-offset:3px;}
+.opt .big{font-size:15px;font-weight:600;letter-spacing:-.01em;}
+.opt .small{font-size:12px;color:var(--gray);margin-top:5px;}
+.design{aspect-ratio:1.586;padding:8px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;}
+.design .mini{width:100%;height:100%;border-radius:13px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0;box-shadow:0 6px 15px rgba(0,0,0,.14);position:relative;overflow:hidden;}
+.design .mini::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.22),transparent 50%,rgba(0,0,0,.12));}
+.design .mini svg{position:relative;width:30px;height:30px;fill:currentColor;filter:drop-shadow(0 1px 5px rgba(0,0,0,.16));}
+.design .mini::after{content:"Gift Card";position:absolute;left:12px;bottom:10px;font-size:9px;font-weight:600;letter-spacing:.025em;text-shadow:0 1px 5px rgba(0,0,0,.3);}
+label.fl{display:block;font-size:13px;font-weight:600;margin:20px 0 8px;}
+input[type=text],input[type=email],input[type=number],textarea,select{width:100%;border:1px solid #d2d2d7;border-radius:12px;padding:14px 15px;font-size:15px;color:var(--text);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;font-family:inherit;}
+input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,113,227,.14);}
+textarea{resize:vertical;min-height:100px;}
+.field.error input,.field.error textarea{border-color:var(--red);background:#fff8f7;}
+.err-msg{display:none;color:var(--red);font-size:12.5px;margin-top:6px;}
+.field.error .err-msg{display:block;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:48px;align-items:start;}
+.summary{background:var(--light);border-radius:22px;padding:25px;position:sticky;top:72px;}
+.summary h3{font-size:18px;letter-spacing:-.02em;margin-bottom:16px;}
+.sum-line{display:flex;justify-content:space-between;gap:16px;font-size:13px;padding:9px 0;border-bottom:1px solid #e2e2e6;}
+.sum-line span:first-child{color:var(--gray);}
+.sum-line span:last-child{text-align:right;}
+.sum-total{display:flex;justify-content:space-between;font-size:20px;font-weight:650;letter-spacing:-.02em;padding-top:16px;}
+.delivery-note{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--gray);margin:17px 0;}
+.delivery-note svg{flex:none;}
+.btn{display:block;width:100%;background:var(--blue);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s,transform .15s;text-align:center;}
+.btn:hover{background:var(--blue-dark);}
+.btn:active{transform:scale(.985);}
+.btn:disabled{background:#b9d6f5;cursor:not-allowed;}
+.scam-warning{background:#fff;border:1px solid #e5e5ea;color:#6e6e73;font-size:11.5px;border-radius:12px;padding:12px 13px;margin-top:16px;line-height:1.5;}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(80px);background:#1d1d1f;color:#fff;padding:13px 22px;border-radius:999px;font-size:14px;opacity:0;transition:all .35s ease;z-index:99;box-shadow:0 10px 30px rgba(0,0,0,.3);}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+@media(max-width:860px){.layout{grid-template-columns:1fr;gap:6px;}.summary{position:static;}}
+@media(max-width:640px){.nav{padding:0 18px;}.nav-links{display:none;}.wrap{padding:0 18px 64px;}.hero{padding:54px 0 5px;}.card-stage{padding:29px 0 52px;}.grid3{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;}section{margin-bottom:40px;}.summary{padding:21px;}.design{padding:6px;}}
+@media(max-width:420px){.grid2{grid-template-columns:1fr;}.sec-title{font-size:20px;}.opt{padding:15px 11px;}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*,*::before,*::after{transition:none!important;}}
+</style>
+</head>
+<body>
+
+<header>
+<nav class="nav">
+<div class="brand">
+<svg viewBox="0 0 24 24" fill="#1d1d1f"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/><circle cx="12" cy="12" r="4"/></svg>
+GiftCard Store
+</div>
+<div class="nav-links">
+<a href="#send">Delivery</a><a href="#design">Designs</a><a href="#amount">Amount</a><a href="#details">Details</a>
+</div>
+</nav>
+</header>
+
+<div class="wrap">
+<div class="hero">
+<h1>Buy an Apple Gift Card</h1>
+<p>Use it to shop the App Store, Apple TV, Apple Music, iTunes, Apple Arcade, the Apple Store app, apple.com, and more.</p>
+</div>
+
+<div class="card-stage">
+<div class="giftcard" id="previewCard">
+<div class="amount-tag" id="previewAmount">$25</div>
+<div class="brand-mark">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.54c-.03-2.89 2.36-4.27 2.47-4.34-1.35-1.97-3.44-2.24-4.18-2.27-1.78-.18-3.47 1.05-4.37 1.05-.9 0-2.29-1.02-3.77-1-1.94.03-3.72 1.13-4.72 2.86-2.01 3.49-.51 8.66 1.45 11.49.96 1.39 2.1 2.94 3.6 2.88 1.45-.06 2-.93 3.75-.93s2.24.93 3.77.9c1.56-.03 2.55-1.41 3.5-2.8 1.1-1.61 1.55-3.17 1.58-3.25-.04-.02-3.03-1.16-3.08-4.59zM14.16 4.06c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.74-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.63z"/></svg>
+<span>Gift Card</span>
+</div>
+</div>
+</div>
+
+<div class="layout">
+<div>
+
+<section id="country">
+<div class="sec-title">Select delivery country</div>
+<div class="sec-sub">Apple Gift Cards are delivered digitally to these countries.</div>
+<div class="grid3" id="countryGrid">
+<div class="opt active" data-country="US"><div class="big">🇺🇸 United States</div><div class="small">USD $</div></div>
+<div class="opt" data-country="GB"><div class="big">🇬🇧 United Kingdom</div><div class="small">GBP £</div></div>
+<div class="opt" data-country="CA"><div class="big">🇨🇦 Canada</div><div class="small">CAD $</div></div>
+<div class="opt" data-country="AU"><div class="big">🇦🇺 Australia</div><div class="small">AUD $</div></div>
+<div class="opt" data-country="DE"><div class="big">🇩🇪 Germany</div><div class="small">EUR €</div></div>
+<div class="opt" data-country="FR"><div class="big">🇫🇷 France</div><div class="small">EUR €</div></div>
+</div>
+</section>
+
+<section id="send">
+<div class="sec-title">How would you like to send it?</div>
+<div class="sec-sub">Email delivery arrives within 1 hour.</div>
+<div class="grid2">
+<div class="opt active" data-send="Email"><div class="big">✉️ Email</div><div class="small">Delivered within 1 hour</div></div>
+<div class="opt" data-send="Mail"><div class="big">📮 Mail</div><div class="small">Shipped with tracking</div></div>
+</div>
+</section>
+
+<section id="design">
+<div class="sec-title">Choose a design.</div>
+<div class="grid3" id="designGrid">
+<div class="opt design active" data-design="Candy Cane" data-bg="linear-gradient(135deg,#ff4d4d 0%,#ff8fa3 55%,#d61f69 100%)"><div class="mini" style="background:repeating-linear-gradient(45deg,#e02b2b 0 10px,#ff7a9c 10px 20px)">🍎</div></div>
+<div class="opt design" data-design="Ocean" data-bg="linear-gradient(135deg,#3a7bd5,#00c6fb)"><div class="mini" style="background:repeating-linear-gradient(-45deg,#2f5fd0 0 10px,#6ec3ff 10px 20px)">🍎</div></div>
+<div class="opt design" data-design="Sunset" data-bg="linear-gradient(135deg,#ff9966,#ff5e62)"><div class="mini" style="background:repeating-linear-gradient(45deg,#ff9a3d 0 10px,#ffd166 10px 20px)">🍎</div></div>
+<div class="opt design" data-design="Forest" data-bg="linear-gradient(135deg,#11998e,#38ef7d)"><div class="mini" style="background:repeating-linear-gradient(-45deg,#0f8a5f 0 10px,#7bd88f 10px 20px)">🍎</div></div>
+<div class="opt design" data-design="Neon Party" data-bg="linear-gradient(135deg,#f953c6,#b91d73)"><div class="mini" style="background:conic-gradient(from 0deg,#f953c6,#7b2ff7,#00c9ff,#38ef7d,#f953c6)">🍎</div></div>
+<div class="opt design" data-design="Prism" data-bg="linear-gradient(135deg,#8e2de2,#4a00e0)"><div class="mini" style="background:linear-gradient(135deg,#ff0844,#ffb199,#f7ea7a,#7bd88f,#4facfe)">🍎</div></div>
+</div>
+</section>
+
+<section id="amount">
+<div class="sec-title">Choose a payment amount.</div>
+<div class="sec-sub">Choose an amount in USD.</div>
+<div class="grid3" id="amountGrid">
+<div class="opt active" data-amount="25"><div class="big">$25 USD</div><div class="small">₦37,500 NGN</div></div>
+<div class="opt" data-amount="50"><div class="big">$50 USD</div><div class="small">₦75,000 NGN</div></div>
+<div class="opt" data-amount="100"><div class="big">$100 USD</div><div class="small">₦150,000 NGN</div></div>
+</div>
+<div class="field" id="otherField" style="margin-top:14px;display:none;">
+<label class="fl" for="otherAmount">Custom amount (USD)</label>
+<div style="position:relative;">
+<span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--gray);">$</span>
+<input type="number" id="otherAmount" min="10" max="2000" step="any" placeholder="Enter $10–$2,000" style="padding-left:32px;">
+</div>
+<div class="err-msg">Please enter an amount between $10 and $2,000 USD.</div>
+<div class="sec-sub" style="margin:10px 0 0;">NGN equivalent: <strong id="customNgn">₦0</strong></div>
+</div>
+<div class="opt" id="otherBtn" style="margin-top:14px;"><div class="big">Other Amount</div></div>
+<div class="scam-warning" style="margin-top:14px;">Custom payments use the Paystack custom payment page. The amount may need to be entered again on Paystack unless customer-entered pricing is enabled for that page.</div>
+</section>
+
+<section id="details">
+<div id="emailDetails">
+<div class="sec-title">Enter your delivery details.</div>
+<label class="fl">Who's it for?</label>
+<div class="field" id="fRecName"><input type="text" id="recName" placeholder="Recipient Name" autocomplete="name"><div class="err-msg">Please enter a valid name.</div></div>
+<div class="field" id="fRecEmail" style="margin-top:12px;"><input type="email" id="recEmail" placeholder="Recipient Email Address" autocomplete="email"><div class="err-msg">Please enter a valid email address.</div></div>
+<label class="fl">Who's it from?</label>
+<div class="field" id="fSenName"><input type="text" id="senName" placeholder="Sender Name"><div class="err-msg">Please enter a valid name.</div></div>
+<div class="field" id="fSenEmail" style="margin-top:12px;"><input type="email" id="senEmail" placeholder="Sender Email Address"><div class="err-msg">Please enter a valid email address.</div></div>
+<label class="fl" for="message">Want to add a personal message?</label>
+<textarea id="message" maxlength="200" placeholder="Add message (optional)"></textarea>
+</div>
+
+<div id="mailDetails" hidden>
+<div class="sec-title">Where should we mail your gift card?</div>
+<div class="sec-sub">Enter the recipient's shipping address.</div>
+<label class="fl" for="mailName">Recipient name</label>
+<div class="field" id="fMailName"><input type="text" id="mailName" placeholder="Full name"><div class="err-msg">Please enter the recipient's full name.</div></div>
+<label class="fl" for="mailAddress">Street address</label>
+<div class="field" id="fMailAddress"><input type="text" id="mailAddress" placeholder="Street address"><div class="err-msg">Please enter a street address.</div></div>
+<label class="fl" for="mailAddress2">Apartment, suite, etc. (optional)</label>
+<input type="text" id="mailAddress2" placeholder="Apartment, suite, unit, building">
+<div class="row2">
+<div><label class="fl" for="mailCity">City</label><div class="field" id="fMailCity"><input type="text" id="mailCity"><div class="err-msg">Please enter a city.</div></div></div>
+<div><label class="fl" for="mailRegion">State / province / region</label><div class="field" id="fMailRegion"><input type="text" id="mailRegion"><div class="err-msg">Please enter a region.</div></div></div>
+</div>
+<label class="fl" for="mailPostal">Postal code</label>
+<div class="field" id="fMailPostal"><input type="text" id="mailPostal"><div class="err-msg">Please enter a postal code.</div></div>
+</div>
+</section>
+</div>
+
+<aside>
+<div class="summary">
+<h3>Order Summary</h3>
+<div class="sum-line"><span>Card design</span><span id="sumDesign">Candy Cane</span></div>
+<div class="sum-line"><span>Delivery</span><span id="sumSend">Email</span></div>
+<div class="sum-line"><span>Country</span><span id="sumCountry">🇺🇸 United States</span></div>
+<div class="sum-line"><span>Recipient</span><span id="sumRec">—</span></div>
+<div class="sum-total"><span>Total</span><span id="sumTotal">$25</span></div>
+<div class="sum-line"><span>NGN equivalent</span><span id="sumNgn">₦37,500</span></div>
+<div class="delivery-note">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6e6e73" stroke-width="2"><path d="M3 7h11v11H3zM14 11h4l3 3v4h-7z"/><circle cx="7.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg>
+<span id="deliveryNoteText">Usually arrives within 1 hour</span>
+</div>
+<button class="btn" id="payBtn">Pay Now</button>
+<div class="scam-warning">⚠️ Beware of gift card scams. Never share your card code with anyone you don't know. Gift cards cannot be used to pay taxes, fines, or debts.</div>
+</div>
+</aside>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// YOUR PAYSTACK PAYMENT LINKS
+const PAYSTACK_LINK_1 = "https://paystack.shop/pay/v9b636zvf5"; // $25
+const PAYSTACK_LINK_2 = "https://paystack.shop/pay/0p8r02djld"; // $50
+const PAYSTACK_LINK_3 = "https://paystack.shop/pay/wehufqyi8y"; // $100
+const PAYSTACK_LINK_4 = "https://paystack.shop/pay/8izt33i61y"; // Custom amount
+
+const USD_TO_NGN_RATE = 1500;
+
+const PAYSTACK_LINKS = {
+  25: PAYSTACK_LINK_1,
+  50: PAYSTACK_LINK_2,
+  100: PAYSTACK_LINK_3,
+  other: PAYSTACK_LINK_4
+};
+
+const state = {
+  country:"US",
+  send:"Email",
+  design:"Candy Cane",
+  amount:25,
+  other:false
+};
+
+const $ = id => document.getElementById(id);
+const fmt = n => "$" + Number(n).toLocaleString("en-US",{maximumFractionDigits:2});
+const fmtNgn = n => "₦" + Math.round(Number(n)).toLocaleString("en-NG");
+
+function selectOption(gridId,el){
+  document.querySelectorAll("#"+gridId+" .opt").forEach(o=>o.classList.remove("active"));
+  el.classList.add("active");
+}
+
+// COUNTRY
+$("countryGrid").addEventListener("click",e=>{
+  const el=e.target.closest(".opt");
+  if(!el)return;
+  selectOption("countryGrid",el);
+  state.country=el.dataset.country;
+  updateSummary();
+});
+
+// DELIVERY
+$("send").addEventListener("click",e=>{
+  const el=e.target.closest(".opt");
+  if(!el)return;
+  selectOption("send",el);
+  state.send=el.dataset.send;
+  $("emailDetails").hidden=state.send!=="Email";
+  $("mailDetails").hidden=state.send!=="Mail";
+  document.querySelectorAll("#emailDetails .field,#mailDetails .field").forEach(f=>f.classList.remove("error"));
+  updateSummary();
+});
+
+// DESIGN
+$("designGrid").addEventListener("click",e=>{
+  const el=e.target.closest(".opt");
+  if(!el)return;
+  selectOption("designGrid",el);
+  state.design=el.dataset.design;
+  $("previewCard").style.background=el.dataset.bg;
+  updateSummary();
+});
+
+// AMOUNT
+$("amountGrid").addEventListener("click",e=>{
+  const el=e.target.closest(".opt");
+  if(!el)return;
+  selectOption("amountGrid",el);
+  state.amount=Number(el.dataset.amount);
+  state.other=false;
+  $("otherField").style.display="none";
+  $("otherBtn").style.display="block";
+  updateSummary();
+});
+
+$("otherBtn").addEventListener("click",()=>{
+  state.other=true;
+  $("otherBtn").style.display="none";
+  $("otherField").style.display="block";
+  $("otherAmount").value="";
+  $("otherField").classList.remove("error");
+  document.querySelectorAll("#amountGrid .opt").forEach(o=>o.classList.remove("active"));
+  updateSummary();
+  $("otherAmount").focus();
+});
+
+$("otherAmount").addEventListener("input",()=>{
+  const v=Number($("otherAmount").value);
+  const ok=v>=10&&v<=2000;
+  $("otherField").classList.toggle("error",!ok&&$("otherAmount").value!=="");
+  updateSummary();
+});
+
+// LIVE SUMMARY
+["recName","recEmail","senName","senEmail","mailName","mailAddress","mailCity","mailRegion","mailPostal"].forEach(id=>{
+  $(id).addEventListener("input",updateSummary);
+});
+
+function updateSummary(){
+  $("sumDesign").textContent=state.design;
+  $("sumSend").textContent=state.send;
+  $("sumCountry").textContent=document.querySelector("#countryGrid .opt.active .big").textContent;
+  $("sumRec").textContent=(state.send==="Mail"?$("mailName").value:$("recName").value).trim()||"—";
+  $("deliveryNoteText").textContent=state.send==="Mail"?"Ships with tracking":"Usually arrives within 1 hour";
+
+  document.querySelectorAll("#amountGrid .opt").forEach(option=>{
+    option.querySelector(".small").textContent=fmtNgn(Number(option.dataset.amount)*USD_TO_NGN_RATE)+" NGN";
+  });
+
+  const total=state.other?(Number($("otherAmount").value)||0):state.amount;
+  state.ngnAmount=Math.round(total*USD_TO_NGN_RATE);
+  $("sumTotal").textContent=fmt(total);
+  $("sumNgn").textContent=fmtNgn(state.ngnAmount);
+  $("customNgn").textContent=fmtNgn(state.ngnAmount);
+  $("previewAmount").textContent=fmt(total);
+}
+
+// VALIDATION
+const emailOK=v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+function validate(){
+  let ok=true;
+
+  const checks=state.send==="Mail"?[
+    ["fMailName",$("mailName").value.trim().length>=2],
+    ["fMailAddress",$("mailAddress").value.trim().length>=3],
+    ["fMailCity",$("mailCity").value.trim().length>=2],
+    ["fMailRegion",$("mailRegion").value.trim().length>=2],
+    ["fMailPostal",$("mailPostal").value.trim().length>=2]
+  ]:[
+    ["fRecName",$("recName").value.trim().length>=2],
+    ["fRecEmail",emailOK($("recEmail").value.trim())],
+    ["fSenName",$("senName").value.trim().length>=2],
+    ["fSenEmail",emailOK($("senEmail").value.trim())]
+  ];
+
+  checks.forEach(([id,pass])=>{
+    $(id).classList.toggle("error",!pass);
+    if(!pass)ok=false;
+  });
+
+  if(state.other){
+    const v=Number($("otherAmount").value);
+    const pass=v>=10&&v<=2000;
+    $("otherField").classList.toggle("error",!pass);
+    if(!pass)ok=false;
+  }
+  return ok;
+}
+
+[$("recName"),$("recEmail"),$("senName"),$("senEmail"),$("mailName"),$("mailAddress"),$("mailCity"),$("mailRegion"),$("mailPostal")].forEach(inp=>{
+  inp.addEventListener("blur",()=>{
+    if(inp.value)validate();
+  });
+});
+
+// PAYSTACK CHECKOUT
+$("payBtn").addEventListener("click",()=>{
+  if(!validate()){
+    toast("Please fix the highlighted fields.");
+    const firstErr=document.querySelector(".field.error input,.field.error textarea");
+    if(firstErr)firstErr.scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+
+  const total=state.other?Number($("otherAmount").value):state.amount;
+  const link=PAYSTACK_LINKS[state.other?"other":total];
+
+  if(!link){
+    toast("Payment link is not configured.");
+    return;
+  }
+
+  // Redirect to the correct Paystack payment page.
+  window.location.href=link;
+});
+
+// TOAST MESSAGE
+function toast(msg){
+  const t=$("toast");
+  t.textContent=msg;
+  t.classList.add("show");
+  clearTimeout(t._h);
+  t._h=setTimeout(()=>t.classList.remove("show"),3200);
+}
+
+// INITIALIZE
+$("previewCard").style.background="linear-gradient(135deg,#ff4d4d 0%,#ff8fa3 55%,#d61f69 100%)";
+updateSummary();
+</script>
+</body>
+</html>
+
